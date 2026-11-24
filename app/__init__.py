@@ -1,0 +1,1 @@
+"""Local Naukri API application."""
