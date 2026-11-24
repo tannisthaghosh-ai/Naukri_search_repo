@@ -1,8 +1,10 @@
-# Sieve
+# Naukri_search_repo
 
 Sieve is a local FastAPI service and PowerShell client for searching Naukri
 Resdex through a browser session that you have logged in to yourself. Searches
 run asynchronously and can be downloaded as an Excel workbook.
+
+Repository: [Naukri_search_repo](https://github.com/tannisthaghosh-ai/Naukri_search_repo)
 
 ## How it works
 
@@ -26,12 +28,49 @@ From the project directory:
 ```powershell
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 ```
 
 Edit `.env` and replace the `API_KEY` placeholder with a private random value.
 Do not share or commit `.env`. The API refuses to start when the key is missing
 or still set to the placeholder.
+
+## How to run
+
+Clone the repository and install its dependencies:
+
+```powershell
+git clone https://github.com/tannisthaghosh-ai/Naukri_search_repo.git
+Set-Location .\Naukri_search_repo
+py -3.11 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+notepad .env
+```
+
+Set a private `API_KEY` in `.env`, then open three PowerShell windows in the
+project directory:
+
+1. Start Edge and sign in to Resdex yourself:
+
+   ```powershell
+   .\start-edge.ps1
+   ```
+
+2. Start the API:
+
+   ```powershell
+   .\.venv\Scripts\python.exe -m app.main
+   ```
+
+3. Run a search and save the Excel output under `output\`:
+
+   ```powershell
+   .\search.ps1 "python developer" -MaxPages 5 -Location "Kolkata" -NoOpen
+   ```
+
+Omit `-NoOpen` to open the workbook automatically. See [Usage](#usage) for
+options and output details.
 
 ## Configuration
 
